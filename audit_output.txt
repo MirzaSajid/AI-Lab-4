@@ -1,0 +1,43 @@
+Supplied code (manual Section 4.2)
+astar(g, h, 'S', 'G') -> (6, ['S', 'A', 'C', 'G'])
+
+Admissibility: h(n) <= true remaining cost h*(n)
+node | h(n) | true remaining cost | admissible?
+S | 5 | 6 | True
+A | 4 | 5 | True
+B | 4 | 5 | True
+C | 2 | 3 | True
+G | 0 | 0 | True
+All admissible: True
+
+Consistency: h(u) <= cost(u,v) + h(v) for every directed edge
+edge | cost | h(u) | cost + h(v) | consistent?
+S -> A | 1 | 5 | 1 + 4 = 5 | True
+S -> B | 4 | 5 | 4 + 4 = 8 | True
+A -> C | 2 | 4 | 2 + 2 = 4 | True
+B -> G | 5 | 4 | 5 + 0 = 5 | True
+C -> G | 3 | 2 | 3 + 0 = 3 | True
+All consistent: True
+
+First 3 expansions, with every calculation
+Expansion 1: select S
+  g = 0, h = 5, f = g + h = 0 + 5 = 5
+  generate A: g = 0 + 1 = 1, h = 4, f = 1 + 4 = 5
+  generate B: g = 0 + 4 = 4, h = 4, f = 4 + 4 = 8
+  frontier after: [A(f=5,g=1), B(f=8,g=4)]
+  next selected: A because it has the lowest f = 5 (others: B's f = 8)
+Expansion 2: select A
+  g = 1, h = 4, f = g + h = 1 + 4 = 5
+  generate C: g = 1 + 2 = 3, h = 2, f = 3 + 2 = 5
+  frontier after: [C(f=5,g=3), B(f=8,g=4)]
+  next selected: C because it has the lowest f = 5 (others: B's f = 8)
+Expansion 3: select C
+  g = 3, h = 2, f = g + h = 3 + 2 = 5
+  generate G: g = 3 + 3 = 6, h = 0, f = 6 + 0 = 6
+  frontier after: [G(f=6,g=6), B(f=8,g=4)]
+  next selected: G because it has the lowest f = 6 (others: B's f = 8) (it is the goal, so A* stops)
+
+Goal processing: select G with g = 6, h = 0, f = 6 + 0 = 6; frontier [B(f=8,g=4)]
+Final path: S -> A -> C -> G | cost reported by A*: 6
+Independent edge-weight sum: 1 + 2 + 3 = 6
+Matches supplied astar(): True

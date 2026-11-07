@@ -1,0 +1,25 @@
+A* trace with h(C): 2 -> 10
+step | event | node | g | h | f | frontier after
+1 | expand | S | 0 | 5 | 5 | [A(f=5,g=1), B(f=8,g=4)]
+2 | expand | A | 1 | 4 | 5 | [B(f=8,g=4), C(f=13,g=3)]
+3 | expand | B | 4 | 4 | 8 | [G(f=9,g=9), C(f=13,g=3)]
+4 | goal | G | 9 | 0 | 9 | [C(f=13,g=3)]
+
+Audit: inadmissible nodes = ['C']; inconsistent edges = ['C -> G']
+
+A* trace with h(B): 4 -> 10
+step | event | node | g | h | f | frontier after
+1 | expand | S | 0 | 5 | 5 | [A(f=5,g=1), B(f=14,g=4)]
+2 | expand | A | 1 | 4 | 5 | [C(f=5,g=3), B(f=14,g=4)]
+3 | expand | C | 3 | 2 | 5 | [G(f=6,g=6), B(f=14,g=4)]
+4 | goal | G | 6 | 0 | 6 | [B(f=14,g=4)]
+
+Audit: inadmissible nodes = ['B']; inconsistent edges = ['B -> G']
+
+Summary of the single-value overestimate experiments
+experiment | original h | modified h | true remaining cost | admissible? | path | cost | independent cost | expansions | result changed?
+baseline (supplied h) | - | - | - | True | S -> A -> C -> G | 6 | 6 | 3 | -
+h(C): 2 -> 10 | 2 | 10 | 3 | False | S -> B -> G | 9 | 9 | 3 | True
+h(B): 4 -> 10 | 4 | 10 | 5 | False | S -> A -> C -> G | 6 | 6 | 3 | False
+
+Optimal cost on this graph: 6
